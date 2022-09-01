@@ -17,14 +17,14 @@ behaviors:
       vis_encode_type: simple
     reward_signals:
       extrinsic:
-        gamma: 0.99
+        gamma: 1.0
         strength: 1.0
       gail:
         gamma: 0.99
-        strength: 0.9
-        demo_path: Project/Demos/BridgeAgent1.demo
+        strength: 1.0
+        demo_path: Project/Demos/BridgeAgent1_2.demo
     behavioral_cloning:
-      demo_path: Project/Demos/BridgeAgent1.demo
+      demo_path: Project/Demos/BridgeAgent1_2.demo
       strength: 0.5
       steps: 150000
     keep_checkpoints: 50
@@ -49,17 +49,18 @@ behaviors:
       vis_encode_type: simple
     reward_signals:
       extrinsic:
-        gamma: 0.99
+        gamma: 1.0
         strength: 1.0
       gail:
         gamma: 0.99
-        strength: 0.9
-        demo_path: Project/Demos/BridgeAgent2.demo
+        strength: 1.0
+        demo_path: Project/Demos/BridgeAgent1_2.demo
     behavioral_cloning:
-      demo_path: Project/Demos/BridgeAgent2.demo
+      demo_path: Project/Demos/BridgeAgent1_2.demo
       strength: 0.5
       steps: 150000
     keep_checkpoints: 50
     max_steps: 21000001
     time_horizon: 64
     summary_freq: 60000
+ 
