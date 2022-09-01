@@ -44,7 +44,6 @@ public class FinalAgentCooperativeClimb : Agent
 
     public float PositiveReward = 2f;
     public float FailedReward = -1f;
-    //public float jumpReward = -0.1f;
     public float timePenalty = -0.5f;
     public float MoveStraightReward = 1f;
     public float wallPenalty = -0.5f;
@@ -52,20 +51,14 @@ public class FinalAgentCooperativeClimb : Agent
     public float CorrectCheckpointReward = 0.25f;
     public float WrongCheckpointReward = -0.25f;
 
-    //[SerializeField]
-    //private GameObject button1; // Button1 object
-    //[SerializeField]
-    //private GameObject button2; // Button1 object
 
     private bool isOnGround = false;
     private bool isOnWall = false;
     private int checkpointNumber = 15;
-    //private int m_ResetTimer = 0;
     private int indice = 0;
 
     public void CorrectCheckpointEntered(Collider col)
     {
-        //Debug.Log($"Checkpoint correcto: {col}: {CorrectCheckpointReward / checkpointNumber}");
         AddReward(CorrectCheckpointReward / checkpointNumber);
         if (indice < checkpointNumber - 1)
         {
@@ -91,7 +84,6 @@ public class FinalAgentCooperativeClimb : Agent
         {
             AddReward(PositiveReward);
             onTriggerEnterEvent.Invoke(m_col);
-            //print($"Goal Entered with: {m_col}");
         }
     }
 
@@ -101,8 +93,6 @@ public class FinalAgentCooperativeClimb : Agent
         if (col.CompareTag(tagToDetect))
         {
             onTriggerEnterExit.Invoke(m_col);
-            //print($"Goal Exited with: {m_col}");
-
         }
     }
 
@@ -181,15 +171,10 @@ public class FinalAgentCooperativeClimb : Agent
         {
             case 1:
                 dirToGo = transform.forward * 1f;
-                //AddReward(1f / 25000);
-                //print("forward");
                 break;
             case 2:
                 dirToGo = transform.forward * -1f;
                 speed = speed * 0.75f;
-                //AddReward(-10f / 25000);
-                //print("backwards");
-
                 break;
         }
         switch (rotateDirAction)
@@ -207,7 +192,6 @@ public class FinalAgentCooperativeClimb : Agent
         {
             m_AgentRb.velocity += (Vector3.up * m_FinalAgentCooperativeSettings.agentJumpAmount * Time.deltaTime);
             isOnGround = false;
-            //AddReward(-0.001f);
         }
         if (m_AgentRb.velocity.y < 0)
         { // si estamos cayendo, caer nas rapido
@@ -230,16 +214,11 @@ public class FinalAgentCooperativeClimb : Agent
     // Observing the Environment (what information to collect), 18 values
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Normalizar valores !!!!!!!!!!!!!!!!!!!!!
         // Target and Agent positions 
         sensor.AddObservation(target.localPosition);             // Target  (x,y,z)
-        //sensor.AddObservation(bridge.transform.localPosition.y); // Bridge  (y)
-        //sensor.AddObservation(button1.transform.localPosition);  // button1 (x,y,z)
-        //sensor.AddObservation(button2.transform.localPosition);  // button2 (x,y,z)
         sensor.AddObservation(this.transform.localPosition);       // Agent   (x,y,z)
         sensor.AddObservation(agent2.transform.localPosition);     // Agent2  (x,y,z)
 
-        //print($"indice: {indice}");
 
         Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(indice).transform.localPosition;
         print($"Next checkpoint position is: {checkpointForward}");

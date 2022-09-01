@@ -231,7 +231,6 @@ public class FinalAgentRoller : Agent
     // Observing the Environment (what information to collect), 8 values
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Normalizar valores !!!!!!!!!!!!!!!!!!!!!
         // Ball and Agent positions 
         sensor.AddObservation(Ball.transform.localPosition);    // Ball   (x,y,z)
         sensor.AddObservation(this.transform.localPosition);    // Agent  (x,y,z)
@@ -239,7 +238,6 @@ public class FinalAgentRoller : Agent
         // next checkpoint position
         Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(indice).transform.localPosition;
         sensor.AddObservation(checkpointForward);               // NextCheck Pos (x,y,z)
-        //print($"Next checkpoint position is: {trackCheckpoints.GetNextCheckpoint(indice).transform.localPosition}");
 
         // Agent and Ball velocity
         sensor.AddObservation(rBody.velocity.x);                // Agent Vel (x)
@@ -257,8 +255,6 @@ public class FinalAgentRoller : Agent
 
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
-        //float forwardAmount = 0f;
-        //float sideAmount = 0f;
 
 
         var dirToGoForwardAction = actionBuffers.DiscreteActions[0];
@@ -316,38 +312,6 @@ public class FinalAgentRoller : Agent
         }
         //// Rotamos el agente
         this.transform.Rotate(rotateDir * turnSpeed, Time.deltaTime * 200f);
-
-        //controlSignal.z = forwardAmount; // force applied along the x-axis, MoveX
-        //controlSignal.y = 0;
-        //controlSignal.x = sideAmount; // force applied along the z-axis, MoveZ
-        //controlSignal.Normalize();
-
-
-        //// Movemos el agente
-        //this.transform.position += (controlSignal * moveSpeed * Time.deltaTime);
-
-        //if (controlSignal != Vector3.zero)
-        //{
-        //    Quaternion toRotation = Quaternion.LookRotation(controlSignal, Vector3.up);
-        //    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, toRotation, turnSpeed * Time.deltaTime);
-        //}
-
-        // RollerAgent applies the values from the action[] array to its Rigidbody component rBody, using Rigidbody.AddForce()
-        // rBody.AddForce(controlSignal * forceAmount * Time.deltaTime); //  * Time.deltaTime);
-
-        // Rewards
-        // calculates the distance to detect when it reaches the target
-        // float distanceToTarget = Vector3.Distance(Object.localPosition, Target.localPosition);
-
-        // Reward Intermedia - acercar/alejar el cubo a la meta
-        //if (distanceToTarget < cubeMinDist)
-        //{
-        //    AddReward(0.001f);
-        //}
-        // if(distanceToTarget >= cubeMinDist) {
-        //    AddReward(-0.00001f);
-        //}
-
 
         // Penalty each Step
         AddReward(timeReward / MaxEnvironmentSteps);

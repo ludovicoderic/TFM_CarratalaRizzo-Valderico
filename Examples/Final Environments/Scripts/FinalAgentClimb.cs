@@ -35,10 +35,6 @@ public class FinalAgentClimber : Agent
     [HideInInspector]
     public Quaternion AgentStartingRot;
 
-    //[HideInInspector]
-    //public Vector3 ObjectStartingPos;
-    //[HideInInspector]
-    //public Quaternion ObjectStartingRot;
     [HideInInspector]
     public Quaternion MapStartingRot;
 
@@ -47,9 +43,6 @@ public class FinalAgentClimber : Agent
     public GameObject ground;
     Material m_GroundMaterial;
     Renderer m_GroundRenderer;
-
-
-    //public float GoalRange = 1.2f;
 
     public float moveSpeed = 10; // public class variable (can set the value from the Inspector window)
     public float turnSpeed = 2000;
@@ -71,9 +64,7 @@ public class FinalAgentClimber : Agent
     public float RandomQuantity = 1;
 
 
-    //private bool bridgeMoved = false;
     private bool isOnGround = false;
-    //private bool isOnWall = false;
 
     private int checkpointNumber = 18;
     private int m_ResetTimer = 0;
@@ -153,7 +144,6 @@ public class FinalAgentClimber : Agent
         m_ResetTimer = 0;
         // Reset Variables
         isOnGround = false;
-        //isOnWall = false;
 
         // Get the ground renderer
         m_GroundRenderer = ground.GetComponent<Renderer>();
@@ -173,7 +163,6 @@ public class FinalAgentClimber : Agent
     {
         // End if time > MaxEnvironmentSteps
         m_ResetTimer += 1;
-        //print(m_ResetTimer);
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
             endEpisode(FailedReward);
@@ -181,13 +170,12 @@ public class FinalAgentClimber : Agent
                 GoalScoredSwapGroundMaterial(loseMaterial, 2));
         }
 
-        if (this.transform.localPosition.y < -2f)//|| isOnWall == true) // // Object.localPosition.y < -0.5 
+        if (this.transform.localPosition.y < -2f)
         {
             endEpisode(FailedReward);
             StartCoroutine(
                 GoalScoredSwapGroundMaterial(loseMaterial, 2));
         }
-        //print($"isonground: {isOnGround}");
     }
     // set-up the environment for a new episode
     public override void OnEpisodeBegin()
@@ -229,9 +217,8 @@ public class FinalAgentClimber : Agent
     // Observing the Environment (what information to collect), 8 values
     public override void CollectObservations(VectorSensor sensor)
     {
-        // Normalizar valores !!!!!!!!!!!!!!!!!!!!!
         // Target and Agent positions 
-        sensor.AddObservation(Target.localPosition);            // Target (x,y,z)
+        //sensor.AddObservation(Target.localPosition);            // Target (x,y,z)
         sensor.AddObservation(this.transform.localPosition);    // Agent  (x,y,z) // no cambia de posicion, podria quitarlo
 
         // face same direction as checkpoint
@@ -250,12 +237,10 @@ public class FinalAgentClimber : Agent
     // to move towards the target the agent needs 2 actions: determines the force applied along the x-axis and the z-axis
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-        // Actions, size = 2
         Vector3 controlSignal = Vector3.zero;
 
         var dirToGo = Vector3.zero;
         var rotateDir = Vector3.zero;
-        //float forwardAmount = 0f;
 
         var dirToGoForwardAction = actionBuffers.DiscreteActions[0];
         var rotateDirAction = actionBuffers.DiscreteActions[1];
@@ -311,22 +296,6 @@ public class FinalAgentClimber : Agent
         }
         //// Rotamos el agente
         this.transform.Rotate(rotateDir * turnSpeed, Time.deltaTime * 200f);
-
-        //controlSignal.x = forwardAmount; // force applied along the x-axis, MoveX
-        //controlSignal.y = 0;
-        //controlSignal.x = sideAmount; // force applied along the z-axis, MoveZ
-        //controlSignal.Normalize();
-
-
-
-
-        //this.transform.position += (controlSignal * moveSpeed * Time.deltaTime);
-
-        //if (controlSignal != Vector3.zero)
-        //{
-        //    Quaternion toRotation = Quaternion.LookRotation(controlSignal, Vector3.up);
-        //    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, toRotation, turnSpeed * Time.deltaTime);
-        //}
 
         // Penalty each Step
         AddReward(-0.1f / MaxEnvironmentSteps);
