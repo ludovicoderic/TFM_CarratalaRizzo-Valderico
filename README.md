@@ -2,8 +2,8 @@
  
 
 En este repositorio podemos encontrar dos carpetas, cuyo contenido es el siguiente:
-- config: en esta carpeta se encuentran todos los ficheros de configuración YAML utilizados para el desarrollo de este proyecto.
-- Examples: en esta carpeta se encuentran los diferentes códigos y escenas de Unity utilizadas para cada uno de los entornos, así como los elementos necesarios para su funcionamiento.
+- **config**: en esta carpeta se encuentran todos los ficheros de configuración YAML utilizados para el desarrollo de este proyecto.
+- **Examples**: en esta carpeta se encuentran los diferentes códigos y escenas de Unity utilizadas para cada uno de los entornos, así como los elementos necesarios para su funcionamiento.
  - Final Environments: aquí se encuentran cada uno de los entornos finales descritos en el apartado de experimentación.
  - Previous Environments: aquí se encuentran cada uno de los entornos de prueba realizados previamente a los entornos finales.
     
