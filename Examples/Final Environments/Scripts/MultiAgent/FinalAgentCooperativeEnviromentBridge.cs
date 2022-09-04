@@ -202,15 +202,15 @@ public class FinalAgentCooperativeEnviromentBridge : MonoBehaviour
         if (buttonPressed1)
         {
             print($"Button 1 Pressed: {ButtonFindReward} / MaxEnvironmentSteps) each");
-            Agent1.AddReward(ButtonFindReward / MaxEnvironmentSteps);
-            Agent2.AddReward(ButtonFindReward / MaxEnvironmentSteps);
+            //Agent1.AddReward(ButtonFindReward / MaxEnvironmentSteps);
+            //Agent2.AddReward(ButtonFindReward / MaxEnvironmentSteps);
 
         }
         if (buttonPressed2)
         {
             print($"Button 2 Pressed: {(2 * ButtonFindReward)} / MaxEnvironmentSteps) each");
-            Agent1.AddReward((2*ButtonFindReward) / MaxEnvironmentSteps);
-            Agent2.AddReward((2*ButtonFindReward) / MaxEnvironmentSteps);
+            //Agent1.AddReward((2*ButtonFindReward) / MaxEnvironmentSteps);
+            //Agent2.AddReward((2*ButtonFindReward) / MaxEnvironmentSteps);
 
         }
 
@@ -567,10 +567,10 @@ public class FinalAgentCooperativeEnviromentBridge : MonoBehaviour
         // Booth agents crossed the bridge
         if (Agent1.transform.localPosition.x > 1f && Agent2.transform.localPosition.x > 1f)
         {
-            print($"Reward 4: Both Agents hace crossed the Bridge {1f} / MaxEnvironmentSteps) each");
+            print($"Reward 4: Both Agents hace crossed the Bridge {2f} / MaxEnvironmentSteps) each");
             //m_AgentGroup.AddGroupReward(5f / MaxEnvironmentSteps);
-            Agent1.AddReward(1f / MaxEnvironmentSteps);
-            Agent2.AddReward(1f / MaxEnvironmentSteps);
+            Agent1.AddReward(2f / MaxEnvironmentSteps);
+            Agent2.AddReward(2f / MaxEnvironmentSteps);
         }
         // End episode if all the agents get to the goal, give Positive Reward
         if ((agent1Goal && agent2Goal) || done)

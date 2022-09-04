@@ -15480,6 +15480,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3910166082217772957, guid: 89b06c5e9a423b343993d45f15df6b8b,
         type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 734f9b13f07c0134cb74fcd59bc22482,
+        type: 3}
+    - target: {fileID: 3910166082217772957, guid: 89b06c5e9a423b343993d45f15df6b8b,
+        type: 3}
       propertyPath: m_BehaviorName
       value: Climb
       objectReference: {fileID: 0}
@@ -15913,6 +15919,12 @@ PrefabInstance:
       propertyPath: TeamId
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5759837584515499717, guid: 89b06c5e9a423b343993d45f15df6b8b,
+        type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: 734f9b13f07c0134cb74fcd59bc22482,
+        type: 3}
     - target: {fileID: 5759837584515499717, guid: 89b06c5e9a423b343993d45f15df6b8b,
         type: 3}
       propertyPath: m_BehaviorType

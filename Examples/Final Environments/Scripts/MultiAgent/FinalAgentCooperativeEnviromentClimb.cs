@@ -84,6 +84,8 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
 
     private int m_NumberOfRemainingAgents;
 
+    //private SimpleMultiAgentGroup m_AgentGroup;
+
     private int m_ResetTimer;
 
     public float PositiveReward = 2f;
@@ -94,7 +96,8 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
     private bool done = false;
     private FinalAgentCooperativeClimb Agent1;
     private FinalAgentCooperativeClimb Agent2;
-
+    //private Collider col1 = null;
+    //private Collider col2 = null;
 
     void Start()
     {
@@ -117,14 +120,14 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         m_NumberOfRemainingAgents = AgentsList.Count;
 
         // Initialize TeamManager
-        m_AgentGroup = new SimpleMultiAgentGroup();
+        //m_AgentGroup = new SimpleMultiAgentGroup();
         foreach (var item in AgentsList)
         {
             item.StartingPos = item.Agent.transform.position;
             item.StartingRot = item.Agent.transform.rotation;
             item.Rb = item.Agent.GetComponent<Rigidbody>();
             //item.Agent.GetComponent<Collider>().gameObject.SetActive(true);
-            m_AgentGroup.RegisterAgent(item.Agent);
+           // m_AgentGroup.RegisterAgent(item.Agent);
         }
 
         ResetScene();
@@ -141,43 +144,31 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         {
             print($"MaxEnviromentSteps: {FailedReward}");
             endEpisode();
-            m_AgentGroup.GroupEpisodeInterrupted();
+            //m_AgentGroup.GroupEpisodeInterrupted();
             ResetScene();
         }
         // End episode if all the agents get to the goal
-        if ((agent1Goal))
+        if ((agent1Goal && agent2Goal))
         {
             print($"GOAL ACHIEVED: {PositiveReward}");
 
-            Agent1.AddReward(FailedReward);
-            Agent2.AddReward(-PositiveReward);
-            m_AgentGroup.AddGroupReward(PositiveReward / MaxEnvironmentSteps);
-
+            Agent1.AddReward(PositiveReward);
+            Agent2.AddReward(PositiveReward);
             StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.goalScoredMaterial, 0.5f));
             endEpisode();
             ResetScene();
-        }
-        if ((agent2Goal))
-        {
-            print($"GOAL ACHIEVED: {PositiveReward}");
-
-            Agent1.AddReward(-PositiveReward);
-            Agent2.AddReward(FailedReward);
-            m_AgentGroup.AddGroupReward(PositiveReward / MaxEnvironmentSteps);
-            StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.goalScoredMaterial, 0.5f));
-            endEpisode();
-            ResetScene();
-        }
+        }            
 
         if (Input.GetKey(KeyCode.R))
         {
             ResetScene();
 
         }
-        //Hurry Up Penalty
+        Agent1.AddReward(-1 / MaxEnvironmentSteps);
+        Agent2.AddReward(-1 / MaxEnvironmentSteps);
 
-        Agent1.AddReward(-0.1 / MaxEnvironmentSteps);
-        Agent2.AddReward(-0.1 / MaxEnvironmentSteps);
+        //Hurry Up Penalty
+        // m_AgentGroup.AddGroupReward(-0.5f / MaxEnvironmentSteps);
     }
 
     /// <summary>
@@ -237,8 +228,8 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
     public void CorrectCheckpointEntered(Collider checkpoint, Collider agent)
     {
         Debug.Log($"Checkpoint correcto '{checkpoint.name}' cruzado por: '{agent.name}'");
-        m_AgentGroup.AddGroupReward(CorrectCheckpointReward / MaxEnvironmentSteps);
-
+        //Agent1.AddReward(CorrectCheckpointReward);
+        //Agent2.AddReward(CorrectCheckpointReward);
         if (agent.name == "Agent1")
         {
             Agent1CorrectCheckpoint.Invoke();
@@ -252,6 +243,7 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
     public void WrongCheckpointEntered(Collider checkpoint, Collider agent)
     {
         Debug.Log($"Checkpoint incorrecto '{checkpoint.name}' cruzado por: '{agent.name}'");
+        //Agent1.AddReward(WrongCheckpointReward);
     }
 
     /// <summary>
@@ -275,7 +267,7 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         Agent2.AddReward(PositiveReward);
 
         // Swap ground material for a bit to indicate we scored.
-        StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.goalScoredMaterial, 0.5f));
+        //StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.goalScoredMaterial, 0.5f));
     }
 
     public void FailedEpisode()
@@ -283,7 +275,7 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.failMaterial, 0.5f));
         Agent1.AddReward(FailedReward);
         Agent2.AddReward(FailedReward);
-        m_AgentGroup.EndGroupEpisode();
+        //m_AgentGroup.EndGroupEpisode();
         endEpisode();
         ResetScene();
     }
@@ -292,7 +284,8 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
     {
         Agent1.EndEpisode();
         Agent2.EndEpisode();
-        m_AgentGroup.EndGroupEpisode();
+
+        //m_AgentGroup.EndGroupEpisode();
     }
 
     public void ResetAgentsPosition()
@@ -301,10 +294,12 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         {
             var pos = item.StartingPos;
             var rot = item.StartingRot;
+            //print($"Pos {pos} on Agent");
 
             item.Agent.transform.SetPositionAndRotation(pos, rot);
             item.Rb.velocity = Vector3.zero;
             item.Rb.angularVelocity = Vector3.zero;
+            //item.Agent.GetComponent<Collider>().gameObject.SetActive(true);
         }
     }
 
@@ -318,6 +313,8 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
         // Reset Variables
         m_ResetTimer = 0;
         done = false;
+        //agent1Goal = false;
+        //agent2Goal = false;
 
         //Reset Agents
         foreach (var item in AgentsList)
@@ -341,5 +338,6 @@ public class FinalAgentCooperativeEnviromentClimb : MonoBehaviour
 
         //Reset counter
         m_NumberOfRemainingAgents = AgentsList.Count;
+        //print($"Reset done");
     }
 }

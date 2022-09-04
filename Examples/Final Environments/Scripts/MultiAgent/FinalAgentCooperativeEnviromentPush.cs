@@ -47,6 +47,9 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
     [HideInInspector]
     public Vector3 BallStartingPos;
 
+    //private bool agent1Goal = false;
+    //private bool agent2Goal = false;
+
 
     /// <summary>
     /// Max Academy steps before this platform resets
@@ -93,6 +96,7 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
 
     private int checkpointNumber = 8;
     private int m_ResetTimer = 0;
+    //private int totalReward = 0;
 
     public float GoalDistanceRange = 4f;
     public float AgentsGroupDistance = 4f;
@@ -109,19 +113,23 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
 
     private FinalAgentCooperativePush Agent1;
     private FinalAgentCooperativePush Agent2;
-    private FinalAgentCooperativePush Agent3;
-    private FinalAgentCooperativePush Agent4;
+    //private FinalAgentCooperativePush Agent3;
+    //private FinalAgentCooperativePush Agent4;
 
     private bool done = false;
 
+    //private Collider col1 = null;
+    //private Collider col2 = null;
 
     void Start()
     {
         Agent1 = AgentsList[0].Agent;
         Agent2 = AgentsList[1].Agent;
-        Agent3 = AgentsList[2].Agent;
-        Agent4 = AgentsList[3].Agent;
+        //Agent3 = AgentsList[2].Agent;
+        //Agent4 = AgentsList[3].Agent;
 
+        //agent1Goal = false;
+        //agent2Goal = false;
         rBall = Ball.GetComponent<Rigidbody>();
         BallStartingPos = Ball.transform.localPosition;
 
@@ -147,6 +155,7 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
             item.StartingPos = item.Agent.transform.position;
             item.StartingRot = item.Agent.transform.rotation;
             item.Rb = item.Agent.GetComponent<Rigidbody>();
+            //item.Agent.GetComponent<Collider>().gameObject.SetActive(true);
             m_AgentGroup.RegisterAgent(item.Agent);
         }
         ResetScene();
@@ -169,7 +178,9 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
     private float distanceToTarget()
     {
         float distance = Vector3.Distance(Ball.transform.localPosition, Target.transform.localPosition);
-
+        // Debug.Log("Distance: " + distance);
+        // Debug.Log("Ball: " + Ball.transform.position);
+        // Debug.Log("Target: " + Target.transform.localPosition)
         return distance;
     }
 
@@ -177,26 +188,32 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
     {
         float distance1 = Vector3.Distance(Agent1.transform.localPosition, Ball.transform.localPosition);
         float distance2 = Vector3.Distance(Agent2.transform.localPosition, Ball.transform.localPosition);
-        float distance3 = Vector3.Distance(Agent3.transform.localPosition, Ball.transform.localPosition);
-        float distance4 = Vector3.Distance(Agent4.transform.localPosition, Ball.transform.localPosition);
-
-        return ((distance1 + distance2 + distance3 + distance4) / 3);
+        //float distance3 = Vector3.Distance(Agent3.transform.localPosition, Ball.transform.localPosition);
+        //float distance4 = Vector3.Distance(Agent4.transform.localPosition, Ball.transform.localPosition);
+        // Debug.Log("Distance: " + distance);
+        // Debug.Log("Ball: " + Ball.transform.position);
+        // Debug.Log("Target: " + Target.transform.localPosition)
+        return ((distance1 + distance2 ) / 2);
     }
 
     private float distanceBetweenAgents()
     {
         float distance1 = Vector3.Distance(Agent1.transform.localPosition, Agent2.transform.localPosition);
-        float distance2 = Vector3.Distance(Agent2.transform.localPosition, Agent3.transform.localPosition);
-        float distance3 = Vector3.Distance(Agent3.transform.localPosition, Agent1.transform.localPosition);
-        float distance4 = Vector3.Distance(Agent1.transform.localPosition, Agent4.transform.localPosition);
-        float distance5 = Vector3.Distance(Agent2.transform.localPosition, Agent4.transform.localPosition);
-        float distance6 = Vector3.Distance(Agent3.transform.localPosition, Agent4.transform.localPosition);
-
-        return ((distance1 + distance2  + distance3 + distance4 + distance5 + distance6) / 6); ;
+        //float distance2 = Vector3.Distance(Agent2.transform.localPosition, Agent3.transform.localPosition);
+        //float distance3 = Vector3.Distance(Agent3.transform.localPosition, Agent1.transform.localPosition);
+        //float distance4 = Vector3.Distance(Agent1.transform.localPosition, Agent4.transform.localPosition);
+        //float distance5 = Vector3.Distance(Agent2.transform.localPosition, Agent4.transform.localPosition);
+        //float distance6 = Vector3.Distance(Agent3.transform.localPosition, Agent4.transform.localPosition);
+        //Debug.Log("Distance: " + distance);
+        // Debug.Log("Ball: " + Ball.transform.position);
+        // Debug.Log("Target: " + Target.transform.localPosition)
+        return ((distance1 ) ); 
     }
 
     void FixedUpdate()
     {
+        //print($"m_NumberOfRemainingAgents: {m_NumberOfRemainingAgents}");
+        //print($"done :{done}");
 
         // End if time > MaxEnviromentSteps
         m_ResetTimer += 1;
@@ -247,11 +264,13 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
             m_AgentGroup.AddGroupReward(-AgentsBallCloseReward / MaxEnviromentSteps);
         }
 
-
+        //print($"Distance between Agents: {(int)distanceAgents}");
+        //print($"Distance to the Ball (mean): {(int)distanceBall}");
         if (Input.GetKey(KeyCode.R))
         {
             ResetScene();
         }
+        //print($"Steps: {m_ResetTimer}");
         m_AgentGroup.AddGroupReward(timePenalty / MaxEnviromentSteps);
     }
 
@@ -271,6 +290,58 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
         return Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
     }
 
+
+
+    public void GoalEntered(Collider col)
+    {
+        //print($"GoalEntered with: {col.name}");
+        //if (col.name == "Agent1")
+        //{
+        //    agent1Goal = true;
+        //}
+        //else if (col.name == "Agent2")
+        //{
+        //    agent2Goal = true;
+        //}
+    }
+
+    public void GoalExited(Collider col)
+    {
+        //print($"GoalExited with: {col.gameObject.name}");
+        //if (col.name == "Agent1")
+        //{
+        //    agent1Goal = false;
+        //}
+        //else if (col.name == "Agent2")
+        //{
+        //    agent2Goal = false;
+        //}
+    }
+
+
+
+    /// <summary>
+    /// Called when the agent moves the button into the goal.
+    /// </summary>
+    public void ScoredAGoal(Collider col)
+    {
+        print($"Scored on {gameObject.name}: {PositiveReward}");
+
+        //Decrement the counter
+        m_NumberOfRemainingAgents--;
+
+        //Disable the agent
+        //col.gameObject.SetActive(false);
+
+        //Are we done?
+        done = m_NumberOfRemainingAgents == 0;
+
+        //Give Agent Rewards
+        //m_AgentGroup.AddGroupReward(PositiveReward);
+
+        // Swap ground material for a bit to indicate we scored.
+        //StartCoroutine(GoalScoredSwapGroundMaterial(m_FinalAgentCooperativeSettings.goalScoredMaterial, 0.5f));
+    }
 
     public void FailedEpisode()
     {
@@ -292,10 +363,12 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
         {
             var pos = item.StartingPos;
             var rot = item.StartingRot;
+            //print($"Pos {pos} on Agent");
 
             item.Agent.transform.SetPositionAndRotation(pos, rot);
             item.Rb.velocity = Vector3.zero;
             item.Rb.angularVelocity = Vector3.zero;
+            //item.Agent.GetComponent<Collider>().gameObject.SetActive(true);
         }
     }
 
@@ -307,7 +380,8 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
         // Reset Variables
         m_ResetTimer = 0;
         done = false;
-
+        //agent1Goal = false;
+        //agent2Goal = false;
         var randomDistance = Academy.Instance.EnvironmentParameters.GetWithDefault("distance_offset", RandomQuantity);
 
 
@@ -317,6 +391,7 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
             Vector3 randomPos = new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-5.0f, +5.0f)) + item.StartingPos;
             var pos = UseRandomAgentPosition ? randomPos : item.StartingPos;
             var rot = UseRandomAgentRotation ? GetRandomRot() : item.StartingRot;
+            //print($"Pos {pos} on Agent");
 
             item.Agent.transform.SetPositionAndRotation(pos, rot);
             item.Rb.velocity = Vector3.zero;
@@ -345,5 +420,6 @@ public class FinalAgentCooperativeEnviromentPush : MonoBehaviour
 
         //Reset counter
         m_NumberOfRemainingAgents = AgentsList.Count;
+        //print($"Reset done");
     }
 }

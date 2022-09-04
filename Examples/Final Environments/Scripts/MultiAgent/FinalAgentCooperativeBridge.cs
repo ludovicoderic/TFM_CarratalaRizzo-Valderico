@@ -68,6 +68,8 @@ public class FinalAgentCooperativeBridge : Agent
     //private int indice = 0;
     private bool buttonPressed = false;
 
+    //private bool bridgeCrossed = false;
+    private bool areaCrossed = false;
     void Awake()
     {
         //print($"Other agent name: {}");
@@ -87,16 +89,13 @@ public class FinalAgentCooperativeBridge : Agent
     public override void OnEpisodeBegin()
     {
         isOnWall = false;
-    }
+        //bridgeCrossed = false;
+        areaCrossed = false;
+}
 
     private void OnTriggerEnter(Collider col)
     {
-        if (col.CompareTag(tagToDetect))
-        {
-            OnTarget = true;
-            onTriggerEnterEvent.Invoke(m_col);
-            //AddReward(PositiveReward);
-        }
+        
         if (col.gameObject.CompareTag("wall") == true || col.gameObject.layer == 10)
         {
             isOnWall = true;
@@ -110,6 +109,12 @@ public class FinalAgentCooperativeBridge : Agent
 
     private void OnTriggerStay(Collider col)
     {
+        if (col.CompareTag(tagToDetect))
+        {
+            OnTarget = true;
+            onTriggerEnterEvent.Invoke(m_col);
+            //AddReward(PositiveReward);
+        }
         if (col.gameObject.CompareTag("switchOn") == true)
         {
             //print("button stay pressed");
@@ -121,6 +126,8 @@ public class FinalAgentCooperativeBridge : Agent
     {
         if (col.CompareTag(tagToDetect))
         {
+            OnTarget = false;
+
             onTriggerEnterExit.Invoke(m_col);
             //AddReward((-ButtonFindReward / 4) / MaxEnviromentSteps);
         }
@@ -347,41 +354,59 @@ public class FinalAgentCooperativeBridge : Agent
         float distance1 = Vector3.Distance(this.transform.localPosition, button1.transform.localPosition);
         float distance2 = Vector3.Distance(this.transform.localPosition, button2.transform.localPosition);
 
-        if (this.transform.localPosition.x < -5f && OnButton1) // si aun no ha cruzado y pulsa el boton
+        if (agent2.transform.localPosition.x < -5f && this.transform.localPosition.x < -5f  && OnButton1) // si aun no ha cruzado y pulsa el boton
         {
             AddReward(0.5f / MaxEnvironmentSteps);
         }
-
-        //if (agent2.transform.localPosition.x > -1) // si el otro ya ha cruza cruzado
-        //{
-        //    //print($"Reward 1.1 : Agent 2 passed button");
-        //    //AddReward(-0.5 / MaxEnvironmentSteps);
-        //    if (distance1 <= 2.5f && OnButton1) // si esta sobre el primer boton
-        //    {
-        //        AddReward(1f / MaxEnvironmentSteps);
-        //    }
-        //}
-        //else
-
-        if (this.transform.localPosition.x > -1f) // si ha cruzado
+        else if (agent2.transform.localPosition.x > -1f && this.transform.localPosition.x > -1f && OnButton1) // si han cruzado los dos
         {
-            AddReward(0.5f / MaxEnvironmentSteps);
-
-            if (distance2 <= 2.5f && OnButton2) // y esta sobre el segundo boton
+            if (distance2 <= 2.5f && OnButton2) // y esta sobre el segundo
             {
-                AddReward(1f / MaxEnvironmentSteps);
+                AddReward(-1f / MaxEnvironmentSteps);
             }
         }
-        else if (this.transform.localPosition.x > -5f) // si comienza a cruzar
-        {
-            AddReward(0.5f / MaxEnvironmentSteps);
-        }
 
-        if (agent2.transform.localPosition.x > -5f) // si el otro comienza a cruzar
+
+            //if (agent2.transform.localPosition.x > -1) // si el otro ya ha cruza cruzado
+            //{
+            //    //print($"Reward 1.1 : Agent 2 passed button");
+            //    //AddReward(-0.5 / MaxEnvironmentSteps);
+            //    if (distance1 <= 2.5f && OnButton1) // si esta sobre el primer boton
+            //    {
+            //        AddReward(1f / MaxEnvironmentSteps);
+            //    }
+            //}
+            //else
+
+            if (this.transform.localPosition.x > -1f && !areaCrossed) // si ha cruzado
+        {
+            areaCrossed = true;
+            AddReward(1.5f);
+
+            //if (distance2 <= 2.5f && OnButton2) // y esta sobre el segundo boton
+            //{
+            //    AddReward(2f / MaxEnvironmentSteps);
+            //}
+        }
+        //else if (this.transform.localPosition.x > -5f && !bridgeCrossed) // si comienza a cruzar
+        //{
+        //    bridgeCrossed = true;
+        //    AddReward(0.5f);
+        //}
+        if (agent2.transform.localPosition.x > -1f) //si ha cruzado el otro
         {
             if (distance1 <= 2.5f && OnButton1) // y esta sobre el primer boton
             {
-                AddReward(1f / MaxEnvironmentSteps);
+                AddReward(-1f / MaxEnvironmentSteps);
+            }
+        }
+        else if (agent2.transform.localPosition.x > -5f) // si el otro comienza a cruzar
+        {
+            AddReward(0.5f / MaxEnvironmentSteps);
+
+            if (distance1 <= 2.5f && OnButton1) // y esta sobre el primer boton
+            {
+                AddReward(1.5f / MaxEnvironmentSteps);
             }
             else if (distance2 <= 2.5f && OnButton2) // y esta sobre el segundo
             {

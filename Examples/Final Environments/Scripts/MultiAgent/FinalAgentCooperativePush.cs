@@ -44,10 +44,15 @@ public class FinalAgentCooperativePush : Agent
     [SerializeField]
     private GameObject agent3; // Other Agent object
     [SerializeField]
-    private GameObject agent4   ; // Other Agent object
+    private GameObject agent4; // Other Agent object
 
     private float fallMultiplier = 2.5f;
 
+    //[SerializeField]
+    //private GameObject button1; // Button1 object
+    //[SerializeField]
+    //private GameObject button2; // Button1 object
+    //public float PositiveReward = 0.5f;
     public float FailedReward = -1f;
 
     public float CorrectCheckpointReward = 0.25f;
@@ -62,9 +67,13 @@ public class FinalAgentCooperativePush : Agent
     private bool isOnGround = false;
     private bool isOnWall = false;
 
+    //private float NextCheckpointPos = -5;
+
     public void CorrectCheckpointEntered(Collider col)
     {
+        //Debug.Log($"Checkpoint correcto: {col}: {CorrectCheckpointReward / checkpointNumber}");
         AddReward(CorrectCheckpointReward / checkpointNumber);
+        //NextCheckpointPos = NextCheckpointPos + 10f;
         if (indice < checkpointNumber - 1)
         {
             indice = indice + 1;
@@ -77,6 +86,7 @@ public class FinalAgentCooperativePush : Agent
 
     public void WrongCheckpointEntered(Collider col)
     {
+        //Debug.Log($"Checkpoint incorrecto: {col}: {WrongCheckpointReward / checkpointNumber}");
         AddReward(WrongCheckpointReward / checkpointNumber);
 
     }
@@ -87,6 +97,8 @@ public class FinalAgentCooperativePush : Agent
         if (col.CompareTag(tagToDetect))
         {
             onTriggerEnterEvent.Invoke(m_col);
+            //print($"Goal Entered with: {m_col}");
+
         }
     }
 
@@ -96,12 +108,14 @@ public class FinalAgentCooperativePush : Agent
         if (col.CompareTag(tagToDetect))
         {
             onTriggerEnterExit.Invoke(m_col);
+            //print($"Goal Exited with: {m_col}");
+
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.layer == 11 && !isOnGround))
+        if (((collision.gameObject.layer == 11 || collision.gameObject.layer == 6) && !isOnGround))
         {
             isOnGround = true;
         }
@@ -114,7 +128,7 @@ public class FinalAgentCooperativePush : Agent
     private void OnCollisionStay(Collision collision)
     {
         // Stay on the ground
-        if ((collision.gameObject.layer == 11 && !isOnGround))
+        if (((collision.gameObject.layer == 11 || collision.gameObject.layer == 6) && !isOnGround))
         {
             isOnGround = true;
         }
@@ -170,10 +184,15 @@ public class FinalAgentCooperativePush : Agent
         {
             case 1:
                 dirToGo = transform.forward * 1f;
+                //AddReward(1f / 25000);
+                //print("forward");
                 break;
             case 2:
                 dirToGo = transform.forward * -1f;
                 speed = speed * 0.75f;
+                //AddReward(-10f / 25000);
+                //print("backwards");
+
                 break;
         }
         switch (rotateDirAction)
@@ -199,6 +218,20 @@ public class FinalAgentCooperativePush : Agent
         { // si estamos cayendo, caer nas rapido
             m_AgentRb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
+
+        //controlSignal.z = forwardAmount; // force applied along the x-axis, MoveX
+        //controlSignal.y = 0;
+        //controlSignal.x = sideAmount; // force applied along the z-axis, MoveZ
+        //controlSignal.Normalize();
+
+        //// Movemos el agente
+        //this.transform.position += (controlSignal * m_FinalAgentCooperativeSettings.agentRunSpeed * Time.deltaTime);
+
+        //if (controlSignal != Vector3.zero)
+        //{
+        //    Quaternion toRotation = Quaternion.LookRotation(controlSignal, Vector3.up);
+        //    this.transform.rotation = Quaternion.RotateTowards(this.transform.rotation, toRotation, m_FinalAgentCooperativeSettings.agentRotationSpeed * Time.deltaTime);
+        //}
     }
 
     // Observing the Environment (what information to collect), 18 values
@@ -206,6 +239,7 @@ public class FinalAgentCooperativePush : Agent
     {
         //float d = 30f;
 
+        // Normalizar valores !!!!!!!!!!!!!!!!!!!!!
         // Target and Agent positions 
         sensor.AddObservation(Ball.transform.localPosition);       // Ball    (x,y,z)
         sensor.AddObservation(this.transform.localPosition);       // Agent   (x,y,z)
@@ -226,6 +260,8 @@ public class FinalAgentCooperativePush : Agent
 
         Vector3 checkpointForward = trackCheckpoints.GetNextCheckpoint(indice).transform.localPosition;
 
+        //print($"Ball position is: {Ball.transform.localPosition}");
+        //print($"Next checkpoint position is: {checkpointForward.x}"); 
         sensor.AddObservation(checkpointForward.x);               // NextCheck Pos (x)
 
     }
@@ -241,7 +277,8 @@ public class FinalAgentCooperativePush : Agent
             print($"Agent fell of the ground: FailedReward: {FailedReward}");
             endEpisodeEvent.Invoke();
         }
-        AddReward(timePenalty / MaxEnviromentSteps);
+        //print($"NextCheckpointPos: {NextCheckpointPos}");
+        //AddReward(timePenalty / MaxEnviromentSteps);
     }
 
     /// <summary>
@@ -252,6 +289,7 @@ public class FinalAgentCooperativePush : Agent
         if (actionBuffers.DiscreteActions[0] == 1f && actionBuffers.DiscreteActions[2] == 0f)
         {
             AddReward(MoveStraightReward / MaxEnviromentSteps);
+            //print("move front reward");
         }
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);

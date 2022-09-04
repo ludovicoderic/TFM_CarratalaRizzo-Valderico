@@ -50,6 +50,7 @@ public class FinalAgentBridge : Agent
 
     public float moveSpeed = 1f; // public class variable (can set the value from the Inspector window)
     public float turnSpeed = 1f;
+    //public float jumpAmount = 1000;
     private float fallMultiplier = 2.5f;
 
     // Enviroment Variables
@@ -66,9 +67,12 @@ public class FinalAgentBridge : Agent
     public float WrongCheckpointReward = 0.25f;
     public float FailedReward = -1f;
 
+
+
     private bool isOnGround = false;
     private bool isOnWall = false;
     private bool shouldOpen = false;
+    //private bool bridgeCrossed = false;
 
     public bool UseRandomAgentPosition = false;
     public bool UseRandomAgentRotation = false;
@@ -115,6 +119,15 @@ public class FinalAgentBridge : Agent
         {
             isOnWall = true;
         }
+        //if (collision.gameObject.CompareTag("switchOn") == true || collision.gameObject.layer == 16)
+        //{
+        //    shouldOpen = true;
+        //    buttonMeshRenderer.material = winMaterial;
+        //    AddReward(ButtonFindReward);
+        //}
+        //if (collision.gameObject.CompareTag("switchOff") == true || collision.gameObject.layer == 17) {
+        //    shouldOpen = false;
+        //}
     }
 
 
@@ -126,6 +139,11 @@ public class FinalAgentBridge : Agent
         {
             isOnGround = false;
         }
+        //if (collision.gameObject.CompareTag("switchOn") == true || collision.gameObject.layer == 16)
+        //{
+        //    shouldOpen = true;
+        //    buttonMeshRenderer.material = loseMaterial;
+        //}
     }
 
     private void OnTriggerEnter(Collider col)
@@ -139,6 +157,9 @@ public class FinalAgentBridge : Agent
                 AddReward(ButtonFindReward);
                 buttonMeshRenderer.material = winMaterial;
             }
+            //else{
+            //    AddReward(-0.001);
+            //}
         }
     }
 
