@@ -1,5 +1,16 @@
-# TFM_CarratalaRizzo-Valderico
- 
+# Aprendizaje por refuerzo en sistemas mono y multiagente: 
+## Análisis e implementación de diferentes sistemas de Deep RL sobre el framework de Unity
+
+## Introducción
+
+El objetivo de este Trabajo Fin de Máster es implementar una serie de sistemas que me permita analizar la viabilidad del desarrollo de agentes inteligentes de forma fácil, rápida y a bajo coste.
+
+Por lo tanto, se implementarán una serie de sistemas en los cuales, uno o varios agentes aprendan a realizar una tarea simple mediante la interacción directa con el entorno gracias al aprendizaje por refuerzo.
+
+Para el desarrollo de este proyecto utilizaremos el entorno de simulación de Unity, y su librería de aprendizaje por refuerzo ’ML-Agents’, gracias a los cuales seremos capaces de diseñar y entrenar entornos tanto monoagentes como multiagentes, sin necesidad de una enorme capacidad computacional. 
+
+
+## Contenido del repositorio
 
 En este repositorio podemos encontrar dos carpetas, cuyo contenido es el siguiente:
 - **config**: en esta carpeta se encuentran todos los ficheros de configuración YAML utilizados para el desarrollo de este proyecto.
