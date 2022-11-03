@@ -30,7 +30,7 @@ Si por otro lado se quisieran modificar o ampliar los escenarios, es preciso rea
 
 ---
 
-## Reinforcement learning in single and multi-agent systems: 
+# Reinforcement learning in single and multi-agent systems: 
 ## Analysis and implementation of different Deep RL systems on the Unity framework.
 
 ## Introduction
