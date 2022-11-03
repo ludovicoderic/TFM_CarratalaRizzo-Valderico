@@ -30,31 +30,31 @@ Si por otro lado se quisieran modificar o ampliar los escenarios, es preciso rea
 
 ---
 
-# Reinforcement learning in single and multi-agent systems:
-## Analysis and implementation of different Deep RL systems on the Unity framework
+## Reinforcement learning in single and multi-agent systems: 
+## Analysis and implementation of different Deep RL systems on the Unity framework.
 
 ## Introduction
 
-The objective of this Master's Thesis is to implement a series of systems that allow me to analyze the feasibility of developing intelligent agents in an easy, fast and low-cost way.
+The objective of this Master Thesis is to implement a series of systems that allow me to analyze the feasibility of developing intelligent agents easily, quickly and at low cost.
 
 Therefore, a series of systems will be implemented in which one or several agents learn to perform a simple task through direct interaction with the environment thanks to reinforcement learning.
 
-For the development of this project we will use the Unity simulation environment, and its reinforcement learning library 'ML-Agents', thanks to which we will be able to design and train both single-agent and multi-agent environments, without the need for enormous computational capacity. .
+For the development of this project we will use the Unity simulation environment, and its reinforcement learning library 'ML-Agents', thanks to which we will be able to design and train both single-agent and multi-agent environments, without the need of a huge computational capacity. 
 
 
-## Repository content
+## Repository contents
 
-In this repository we can find 4 folders, whose content is as follows:
-- **Enviroments**: in this folder are the different executables of the environments, within each one we find three options:
-        - Camera\_Agent: Environment with the RL model implemented and the general camera enabled.
-        - Camera\_Normal: Environment with the RL model implemented and the agent's camera enabled.
+In this repository we can find 4 folders, whose content is the following:
+- **Enviroments**: in this folder we can find the different executables of the environments, inside each one we can find three options:
+        - Camera_Agent: Environment with the RL model implemented and the general camera enabled.
+        - Camera_Normal: Environment with the RL model implemented and the agent's camera enabled.
         - Heuristic: Environment in manual control mode (without the RL model implemented) and the agent's camera enabled.
-- **Examples**: in this folder you will find the different Unity codes and scenes used for each of the environments, as well as the elements necessary for their operation.
-- Final Environments: here are each of the final environments described in the experimentation section.
-- Previous Environments: here are each of the test environments made prior to the final environments.
-- **config**: in this folder are all the YAML configuration files used for the development of this project.
-- **TFM_Examples_rar**: In this folder you will find the rar files with the different Unity codes and scenes used for each of the environments, as well as the elements necessary for their operation.
+- Examples**: in this folder you can find the different Unity codes and scenes used for each of the environments, as well as the necessary elements for its operation.
+	- Final Environments: here you will find each of the final environments described in the experimentation section.
+	- Previous Environments: here you will find each one of the test environments made before the final environments. 
+- config**: this folder contains all the YAML configuration files used for the development of this project.
+- TFM_Examples_rar**: In this folder you will find the rar files with the different Unity codes and scenes used for each of the environments, as well as the necessary elements for their operation.
+	
+If you wish to test the scenarios, it is only necessary to access the Enviroments folder and execute the file 'UnityEnvironment.exe' of the desired environment.
 
-If you want to test the scenarios, you only need to access the Environments folder and run the 'UnityEnvironment.exe' file of the desired environment.
-
-If, on the other hand, you want to modify or extend the scenarios, you must make the previous configuration in Unity and ML-Agents mentioned in the ML-Agents documentation (which is discussed in the TFM in Appendix A), and then copy the content of the 'Examples' folder where the rest of the examples of the ML-Agents library repository are located. Once this is done, all you have to do is open the project in Unity, select the scenario you want to test, and press play to see the agents work in inference mode (since the agents already have the best training brain attached to them). each environment).
+If, on the other hand, you would like to modify or extend the scenarios, it is necessary to perform the previous configuration in Unity and ML-Agents mentioned in the ML-Agents documentation (which is discussed in the TFM in Appendix A), and then copy the contents of the 'Examples' folder where the rest of the examples from the ML-Agents library repository are located. Once this is done, we only have to open the project in Unity, select the scenario we want to test, and press play to see the agents working in inference mode (since the agents already have the brain of the best training performed for each of the environments). 
