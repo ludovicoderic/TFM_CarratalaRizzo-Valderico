@@ -49,11 +49,11 @@ In this repository we can find 4 folders, whose content is the following:
         - Camera_Agent: Environment with the RL model implemented and the general camera enabled.
         - Camera_Normal: Environment with the RL model implemented and the agent's camera enabled.
         - Heuristic: Environment in manual control mode (without the RL model implemented) and the agent's camera enabled.
-- Examples**: in this folder you can find the different Unity codes and scenes used for each of the environments, as well as the necessary elements for its operation.
+- **Examples**: in this folder you can find the different Unity codes and scenes used for each of the environments, as well as the necessary elements for its operation.
 	- Final Environments: here you will find each of the final environments described in the experimentation section.
 	- Previous Environments: here you will find each one of the test environments made before the final environments. 
-- config**: this folder contains all the YAML configuration files used for the development of this project.
-- TFM_Examples_rar**: In this folder you will find the rar files with the different Unity codes and scenes used for each of the environments, as well as the necessary elements for their operation.
+- **config**: this folder contains all the YAML configuration files used for the development of this project.
+- **TFM_Examples_rar**: In this folder you will find the rar files with the different Unity codes and scenes used for each of the environments, as well as the necessary elements for their operation.
 	
 If you wish to test the scenarios, it is only necessary to access the Enviroments folder and execute the file 'UnityEnvironment.exe' of the desired environment.
 
