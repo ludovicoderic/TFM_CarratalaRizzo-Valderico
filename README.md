@@ -1,7 +1,7 @@
 # Aprendizaje por refuerzo en sistemas mono y multiagente: 
 ## Análisis e implementación de diferentes sistemas de Deep RL sobre el framework de Unity
 
-![Test Image 4](https://https://github.com/ludovicoderic/TFM_CarratalaRizzo-Valderico/bridge_results_multi.gif)
+![Test Image 4](https://https://github.com/ludovicoderic/TFM_CarratalaRizzo-Valderico/Results/bridge_results_multi.gif)
 
 ## Introducción
 
