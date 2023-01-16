@@ -1,6 +1,8 @@
 # Aprendizaje por refuerzo en sistemas mono y multiagente: 
 ## Análisis e implementación de diferentes sistemas de Deep RL sobre el framework de Unity
 
+![Test Image 4](https://https://github.com/ludovicoderic/TFM_CarratalaRizzo-Valderico/bridge_results_multi.gif)
+
 ## Introducción
 
 El objetivo de este Trabajo Fin de Máster es implementar una serie de sistemas que me permita analizar la viabilidad del desarrollo de agentes inteligentes de forma fácil, rápida y a bajo coste.
